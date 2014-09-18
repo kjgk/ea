@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <source id="dataPoint" desc="数据点" className="com.withub.model.ea.DataPoint">
+        <property cellName="dataPointId" cellIndex="0" desc="数据点ID"/>
+        <property cellName="dataPointSliceId" cellIndex="1" desc="数据点SliceID"/>
+        <property cellName="dataPointTag" cellIndex="2" desc="数据点标识"/>
+        <property cellName="name" cellIndex="3" desc="数据点名称"/>
+        <property cellName="pointDataType" cellIndex="4" desc="数据点类型"/>
+        <property cellName="pointDataValueType" cellIndex="5" desc="数据点值类型"/>
+        <property cellName="measureUnit" cellIndex="6" desc="测量单位"/>
+        <property cellName="original" cellIndex="7" desc="数据点格式"/>
+        <property cellName="databaseTag" cellIndex="8" desc="数据源"/>
+    </source>
+</root>

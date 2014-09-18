@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--
+        cronExpression 属性指定的格式如下:
+        秒,分,时,每月第几天,月,每星期第几天,年
+     -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="dataPointTimeSegmentUpdateTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dataPointTimeSegmentUpdateTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="dataPointTimeSegmentUpdateJob"/>
+        </property>
+        <property name="cronExpression">
+            <value>0 5/30 * * * ?</value>
+            <!--<value>0/30 * * * * ?</value>-->
+        </property>
+    </bean>
+
+
+    <bean id="dataPointTimeSegmentUpdateJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <bean class="com.withub.job.DataPointTimeSegmentUpdateJob"/>
+        </property>
+        <property name="targetMethod" value="execute"/>
+    </bean>
+
+
+</beans>

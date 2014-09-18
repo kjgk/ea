@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <source id="userPointData" desc="用户数据点" className="com.withub.model.ea.PointActualValue">
+        <property cellName="utcDateTime" cellIndex="0" desc="数据时间"/>
+        <property cellName="actualValue" cellIndex="1" desc="数据值"/>
+    </source>
+</root>

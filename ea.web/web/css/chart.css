@@ -1,0 +1,89 @@
+.icon-chart-add {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/add.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-asc {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/asc.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-baseline {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/baseline.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-chart {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/chart.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-clear {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/clear.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-desc {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/desc.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-label {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/label.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-means {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/means.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-electricity {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/means.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-query {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/query.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-table {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/table.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.icon-chart-yuan {
+    margin-top: 4px;
+    background-image: url(../images/widget/chart/yuan.png) !important;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.button-chart {
+    border-radius: 0;
+    /*background: none !important;*/
+    border: 0;
+}

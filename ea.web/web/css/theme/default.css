@@ -1,0 +1,207 @@
+.menu-content-default {
+    background-color: #4A4A4A;
+    background-image: url(../../images/home/11.png);
+    background-repeat: no-repeat;
+    /*background-position: right bottom;*/
+    background-position-x: 90%;
+    background-position-y: 98%;
+}
+
+.menu-content-split {
+    background-image: none;
+}
+
+.menu-item {
+    line-height: 30px;
+    font-family: "Microsoft YaHei";
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    color: #808080;
+    cursor: pointer;
+    padding-left: 38px;
+    margin: 0px 0px;
+}
+
+.menu-item-over {
+    color: #FFFFFF;
+    background: url(../../images/home/10.png) no-repeat;
+}
+
+.menu-item-selected {
+    color: #FFFFFF;
+    background: url(../../images/home/10.png) no-repeat;
+}
+
+.tab-item {
+    line-height: 28px;
+    font-family: "Microsoft YaHei";
+    white-space: nowrap;
+    font-size: 14px;
+    float: left;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0px 6px;
+    margin: 0px 2px;
+    color: #F0F0F0;
+    border-bottom: 4px solid #1EA5FF;
+}
+
+.tab-item-over {
+    color: #FFFFFF;
+    border-bottom: 4px solid #157FCC;
+}
+
+.tab-item-selected {
+    color: #FFFFFF;
+    border-bottom: 4px solid #157FCC;
+}
+
+.split {
+    width: 1px;
+    height: 33px;
+    float: left;
+    margin: 5px 10px 0px 10px;
+    border-left: 1px solid #6B7075;
+}
+
+#top-nav {
+    height: 43px;
+    width: 100%;
+    background-color: #242424;
+}
+
+#username {
+    float: left;
+    line-height: 37px;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding-left: 36px;
+    background: url(../../images/home/4.png) no-repeat;
+}
+
+#username a {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Microsoft YaHei';
+}
+
+#task-info {
+    float: left;
+    line-height: 37px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 0px 0px 0px 32px;
+    background: url(../../images/home/24.png) no-repeat 0px 5px;
+}
+
+#task-info a {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Microsoft YaHei';
+}
+
+.task-info-button {
+    width: 72px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 14px;
+    background-color: #00B0E2;
+    margin: 4px 0px 0px 0px;
+    color: #F5F5F5;
+    cursor: pointer;
+    float: right;
+}
+
+.task-info-content {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 5px 0px;
+}
+
+.tip-link {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Microsoft YaHei';
+    display: block;
+    line-height: 24px;
+}
+
+.tip-link:hover {
+    color: #ff1616;
+}
+
+.tip-link-icon-1 {
+    padding-left: 26px;
+    background: url(../../images/home/5.png) no-repeat;
+}
+
+.tip-link-icon-2 {
+    padding-left: 26px;
+    background: url(../../images/home/6.png) no-repeat;
+}
+
+h3 {
+    font-family: 'Microsoft YaHei';
+    white-space: nowrap;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: bold;
+}
+
+.x-tab-scroller {
+    z-index: 99999;
+    height: 30px;
+    width: 30px;
+    margin-top: 1px;
+    cursor: pointer;
+}
+
+.x-tab-scroller-left {
+    background: #1EA5FF url(../../images/home/1-2.png) no-repeat;
+}
+
+.x-tab-scroller-left:hover {
+    background: #1EA5FF url(../../images/home/1-1.png) no-repeat;
+}
+
+.x-tab-scroller-right {
+    background: #1EA5FF url(../../images/home/2-2.png) no-repeat;
+}
+
+.x-tab-scroller-right:hover {
+    background: #1EA5FF url(../../images/home/2-1.png) no-repeat;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    font-size: 16px;
+    background: #4A4A4A;
+    color: #C2C4C6;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    color: #C2C4C6;
+    text-decoration: none;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+}
+
+.ui-state-hover a, .ui-state-hover a:hover, .ui-state-hover a:link, .ui-state-hover a:visited {
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    color: #cccccc;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: #cccccc;
+    text-decoration: none;
+}

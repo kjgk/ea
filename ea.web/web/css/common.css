@@ -1,0 +1,70 @@
+.text-block {
+    font-size: 13px;
+    padding: 4px 0px;
+    text-align: center;
+    color: #C1DDF1;
+    cursor: move;
+}
+
+.block {
+    border: 2px solid #C1DDF1;
+}
+
+.block-select {
+    border: 2px solid #EE0022;
+}
+
+.data-list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.data-list .list-item {
+    height: 26px;
+    line-height: 24px;
+    padding: 2px 4px;
+    cursor: default;
+}
+
+.data-list .list-item-over {
+    background: #EFEFEF;
+}
+
+.data-list .list-item-selected {
+    background: #E0E0E0;
+}
+
+.search-result {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.search-result .list-item {
+    padding: 2px 4px;
+    cursor: default;
+}
+
+.search-result .list-item .name {
+}
+
+.search-result .list-item .desc {
+    zoom: 0.8;
+    color: #808080;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.search-result .even {
+    background-color: #FFFFFF;
+}
+
+.search-result .odd {
+    background-color: #F9F9F9;
+}
+
+.search-result .list-item-over {
+    background-color: #7bb8eb;
+}
