@@ -1,2 +1,9 @@
 out
+classes
+target
 .idea
+ea.api/target
+ea.core/target
+ea.web/target
+withub.common/target
+
