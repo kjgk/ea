@@ -321,8 +321,8 @@ Ext.define('withub.ext.ea.page.PageDesigner', {
                         notifyDrop: function (ddSource, e, data) {
                             var record = ddSource.dragData.records[0];
                             if (record.get('attributes')['licenseValid'] == false) {
-//                                ExtUtil.Msg.error('该组件未被授权，无法使用！');
-//                                return false;
+                                ExtUtil.Msg.error('该组件未被授权，无法使用！');
+                                return false;
                             }
                             var widgetTag = 'withub.ext.ea.page.widget.' + record.get('attributes')['widgetTag'];
                             var widget;

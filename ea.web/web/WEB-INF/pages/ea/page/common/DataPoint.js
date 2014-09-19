@@ -23,6 +23,9 @@ Ext.define('withub.ext.ea.page.common.DataPoint', {
             items = [
                 {
                     xtype: 'datapointfield',
+                    params: {
+                        showTimeSegment: true
+                    },
                     name: 'dataPointId',
                     allowBlank: false,
                     value: dataPointId
@@ -52,6 +55,9 @@ Ext.define('withub.ext.ea.page.common.DataPoint', {
                             itemId: 'dataPointField',
                             xtype: 'datapointfield',
                             flex: 1,
+                            params: {
+                                showTimeSegment: true
+                            },
                             listeners: {
                                 select: function (combo, records) {
                                     this.formPanel.down('#addButton').setDisabled(false);

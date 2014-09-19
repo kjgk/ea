@@ -69,7 +69,7 @@
         });
     </script>
 </head>
-<body oncontextmenu='return true;'>
+<body oncontextmenu='return false;'>
 <c:if test="${!empty jspPage}">
     <jsp:include page="${jspPage}"></jsp:include>
 </c:if>

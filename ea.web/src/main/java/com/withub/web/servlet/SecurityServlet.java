@@ -27,8 +27,8 @@ public class SecurityServlet extends HttpServlet {
         }
         SystemConfigInfo systemConfigInfo = ConfigUtil.getSystemConfigInfo();
         if (!SystemUtil.authorize(systemConfigInfo.getUniqueCode(), systemConfigInfo.getAuthorizationCode(), "")) {
-//            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
-//            return;
+            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
+            return;
         }
 
         if (StringUtils.equalsIgnoreCase(action, Constants.SESSION_INVALID)) {

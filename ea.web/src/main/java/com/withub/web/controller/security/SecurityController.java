@@ -63,8 +63,8 @@ public class SecurityController {
         ConfigUtil.getInstance().init();
         SystemConfigInfo systemConfigInfo = ConfigUtil.getSystemConfigInfo();
         if (!SystemUtil.authorize(systemConfigInfo.getUniqueCode(), systemConfigInfo.getAuthorizationCode(), "")) {
-//            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
-//            return null;
+            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
+            return null;
         }
         return "login";
     }
@@ -75,8 +75,8 @@ public class SecurityController {
         ConfigUtil.getInstance().init();
         SystemConfigInfo systemConfigInfo = ConfigUtil.getSystemConfigInfo();
         if (!SystemUtil.authorize(systemConfigInfo.getUniqueCode(), systemConfigInfo.getAuthorizationCode(), "")) {
-//            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
-//            return null;
+            request.getRequestDispatcher("/authorizationError.jsp").forward(request, response);
+            return null;
         }
         return "adminLogin";
     }
