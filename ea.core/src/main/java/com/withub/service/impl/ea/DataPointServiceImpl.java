@@ -852,8 +852,8 @@ public class DataPointServiceImpl implements DataPointService {
     public void updateDataPointTimeSegmentValue(ElectricityPriceIssue electricityPriceIssue, List<Map> timeSegmentList, DataPoint dataPoint, boolean afresh) throws Exception {
 
         List<Object[]> pointIncrementValueList;
-        Map<String, Float> timeSegmentActualValues = new HashMap();
-        Float maxIncrementValue = 0f;
+        Map<String, Double> timeSegmentActualValues = new HashMap();
+        Double maxIncrementValue = 0d;
         if (afresh) {
             pointIncrementValueList = entityDao.listBySql("select UtcDateTime, PointId, DataBaseTag, IncrementValue from ea_pointactualvalue"
                     + " where 1=1 and pointId = ? and databaseTag = ? and utcDateTime >= ? and utcDateTime <= ? order by utcDateTime"
@@ -861,7 +861,7 @@ public class DataPointServiceImpl implements DataPointService {
 
             if (CollectionUtil.isNotEmpty(pointIncrementValueList)) {
                 for (ElectricityPriceTimeSegment electricityPriceTimeSegment : electricityService.getAllElectricityPriceTimeSegment()) {
-                    timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), 0f);
+                    timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), 0d);
                 }
             }
         } else {
@@ -877,17 +877,17 @@ public class DataPointServiceImpl implements DataPointService {
                         , dataPoint.getDataPointId(), dataPoint.getDatabaseTag(), new Timestamp(electricityPriceIssue.getStartDate().getTime()), new Timestamp(DateUtil.getEndDate(electricityPriceIssue.getEndDate()).getTime()));
 
                 for (Object[] objects : list) {
-                    maxIncrementValue = Math.max(maxIncrementValue, (Float) objects[1]);
+                    maxIncrementValue = Math.max(maxIncrementValue, (Double) objects[1]);
                 }
                 for (ElectricityPriceTimeSegment electricityPriceTimeSegment : electricityService.getAllElectricityPriceTimeSegment()) {
                     for (Object[] objects : list) {
                         if (StringUtil.compareValue(electricityPriceTimeSegment.getTag(), (String) objects[0])) {
-                            timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), (Float) objects[2]);
+                            timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), (Double) objects[2]);
                             break;
                         }
                     }
                     if (!timeSegmentActualValues.containsKey(electricityPriceTimeSegment.getObjectId())) {
-                        timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), 0f);
+                        timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), 0d);
                     }
                 }
             }
@@ -900,15 +900,15 @@ public class DataPointServiceImpl implements DataPointService {
             for (int i = 0; i < pointIncrementValueList.size(); i++) {
                 Object[] data = pointIncrementValueList.get(i);
                 Date utcDatetime = (Date) data[0];
-                Float incrementValue = (Float) data[3];
-                Float increment;
+                Double incrementValue = Double.parseDouble(data[3].toString());
+                Double increment;
                 if (afresh) {
-                    increment = i == 0 ? 0 : (incrementValue - (Float) pointIncrementValueList.get(i - 1)[3]);
+                    increment = i == 0 ? 0 : (incrementValue - Double.parseDouble(pointIncrementValueList.get(i - 1)[3].toString()));
                 } else {
-                    if (maxIncrementValue == 0f && i == 0) {
-                        increment = 0f;
+                    if (maxIncrementValue == 0d && i == 0) {
+                        increment = 0d;
                     } else {
-                        increment = incrementValue - (i == 0 ? maxIncrementValue : (Float) pointIncrementValueList.get(i - 1)[3]);
+                        increment = incrementValue - (i == 0 ? maxIncrementValue : Double.parseDouble(pointIncrementValueList.get(i - 1)[3].toString()));
                     }
                 }
 
@@ -922,7 +922,7 @@ public class DataPointServiceImpl implements DataPointService {
                     ElectricityPrice electricityPrice = (ElectricityPrice) timeSegment.get("electricityPrice");
 
                     if (utcDatetime.getTime() > start && utcDatetime.getTime() <= end) {
-                        Float value = timeSegmentActualValues.get(electricityPrice.getElectricityPriceTimeSegment().getObjectId());
+                        Double value = timeSegmentActualValues.get(electricityPrice.getElectricityPriceTimeSegment().getObjectId());
                         value += increment;
                         timeSegmentActualValues.put(electricityPrice.getElectricityPriceTimeSegment().getObjectId(), value);
                         entityDao.executeSql("update ea_pointactualvalue set timesegmenttag = ?, timesegmentactualvalue = ?" +
