@@ -1,0 +1,56 @@
+<div class="container" style="width: 980px;">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-preview">
+                <button class="btn btn-primary" ng-click="preview()"><i class="fa fa-lg fa-fw fa-image"></i> 预览</button>
+                <button class="btn btn-warning" ng-click="save()"><i class="fa fa-lg fa-fw fa-save"></i> 保存</button>
+            </div>
+            <tabset>
+                <tab ng-controller="DesignerWidgetCtrl" ng-init="target='header'">
+                    <tab-heading>设置页眉</tab-heading>
+                    <div ng-="target='header'" ng-include="'partials/designer-widget.html'"></div>
+                </tab>
+                <tab ng-controller="DesignerWidgetCtrl" ng-init="target='footer'">
+                    <tab-heading>设置页脚</tab-heading>
+                    <div  ng-include="'partials/designer-widget.html'"></div>
+                </tab>
+                <tab>
+                    <tab-heading>设置内容</tab-heading>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><i class="fa fa-fw fa-th-list"></i> 展示图列表</div>
+                                <div class="panel-body">
+                                    <div style="max-height: 480px; min-height: 120px; overflow-y: auto">
+                                        <js-tree tree-options="treeOptions"></js-tree>
+                                    </div>
+                                    <div style="margin: 12px auto 0 auto; text-align: center; width: 90px;">
+                                        <button class="btn btn-block btn-primary" ng-click="addPageItem()"><i class="fa fa-lg fa-fw fa-plus-circle"></i> 添加
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-hover table-condensed" at-table at-list="pageItemList">
+                        <thead></thead>
+                        <tbody>
+                        <tr>
+                            <td at-title="#" width="32">{{$index+1}}</a></td>
+                            <td at-title="名称"><a target="_blank" href="/ea/loadPage/withub.ext.ea.page.PageDisplay?menuId={{item.menuId}}">{{item.name}}</a>
+                            </td>
+                            <td at-title="" width="180" style="text-align: center;">
+                                <button class="btn btn-primary btn-xs" ng-disabled="$first" ng-click="orderPageItem(item, -1)">上移</button>
+                                <button class="btn btn-primary btn-xs" ng-disabled="$last" ng-click="orderPageItem(item, +1)">下移</button>
+                                <button class="btn btn-danger btn-xs" ng-click="deletePageItem(item)">删除</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-fw fa-th-list"></i> 组件列表</div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li ng-repeat="x in widgets" class="list-group-item text-primary" ui-draggable="true"
+                        on-drop-success="dropSuccessHandler(x)">
+                        <i class="fa fa-caret-right fa-fw"></i><i class="fa fa-lg fa-fw" ng-class="x.icon"></i> {{x.title}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-fw fa-lg fa-cog"></i> 设置</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">高度</label>
+
+                        <div class="col-sm-10">
+                            <div range-slider min="4" max="32" pin-handle="min" model-max="data.options.maxRows"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div gridster="data.options" ui-on-drop>
+            <p ng-show="!data.items.length" style="width: 100%; text-align:center; font-size: 20px; color: #999999; padding: 24px;">
+                请选择组件拖至此处</p>
+            <ul>
+                <li ng-class="{default: true, active: currentItem == item}" gridster-item="item" ng-repeat="item in data.items"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-12" style="margin-top: 12px;">
+        <div class="well" ng-if="currentItem.attributes">
+            <button class="btn btn-danger" style="float:right; margin-bottom: 10px;" ng-click="deleteItem()"><i class="fa fa-fw fa-lg fa-trash"></i> 删除</button>
+            <table class="table table-hover table-bordered table-property">
+                <thead>
+                <tr>
+                    <th style="width: 25%">属性</th>
+                    <th>值</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="currentItem.tag == 'image'">
+                    <td>图片</td>
+                    <td>
+                        <input type="file" nv-file-select uploader="uploader">
+                        <span ng-show="uploader.isUploading"> 正在上传图片，请稍候... </span>
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag == 'date'">
+                    <td>格式</td>
+                    <td>
+                        <input ng-model="currentItem.attributes.dateFormat" placeholder="yyyy-MM-dd HH:mm:ss">
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag == 'text'">
+                    <td>内容</td>
+                    <td>
+                        <textarea ng-model="currentItem.attributes.content" rows="3" placeholder="请输入内容"></textarea>
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>字体</td>
+                    <td>
+                        <select ng-model="currentItem.attributes.style.fontFamily">
+                            <option value="宋体">宋体</option>
+                            <option value="黑体">黑体</option>
+                            <option value="楷体">楷体</option>
+                            <option value="Microsoft YaHei">微软雅黑</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>颜色</td>
+                    <td>
+                        <input colorpicker ng-model="currentItem.attributes.style.color">
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>大小</td>
+                    <td>
+                        <input type="number" ng-model="currentItem.attributes.style.fontSize" min="0" max="100">
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>背景色</td>
+                    <td>
+                        <input colorpicker ng-model="currentItem.attributes.style.backgroundColor" placeholder="无">
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>对其方式</td>
+                    <td>
+                        <input type="radio" id="textAlign.left" name="textAlign" value="left" ng-model="currentItem.attributes.style.textAlign"><label for="textAlign.left">&nbsp;左&nbsp;&nbsp;</label>
+                        <input type="radio" id="textAlign.center" name="textAlign" value="center" ng-model="currentItem.attributes.style.textAlign"><label for="textAlign.center">&nbsp;中&nbsp;&nbsp;</label>
+                        <input type="radio" id="textAlign.right" name="textAlign" value="right" ng-model="currentItem.attributes.style.textAlign"><label for="textAlign.right">&nbsp;右&nbsp;&nbsp;</label>
+                    </td>
+                </tr>
+                <tr ng-if="currentItem.tag != 'image'">
+                    <td>内边距</td>
+                    <td>
+                        <input type="number" ng-model="currentItem.attributes.style.padding" min="0" max="100" placeholder="无">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

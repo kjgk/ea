@@ -1,0 +1,102 @@
+.main {
+  padding-top: 20px;
+  .btn-preview {
+    position: absolute;
+    right: 16px;
+  }
+}
+
+@media print {
+  .main {
+    padding: 0;
+  }
+}
+
+.page-a4 {
+  width: 980px !important;
+  height: 1080px !important;
+}
+
+.page-no {
+  display: inline-block;
+  padding-top: 8px;
+  font-size: 18px;
+}
+
+.report-page {
+  width: inherit;
+//  background: #d2d2d2;
+  ul.header, ul.footer {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    li {
+      position: absolute;
+      list-style: none;
+    }
+  }
+
+  iframe {
+    width: 100%;
+    border: none;
+    height: 1000px;
+    padding: 0;
+    margin: 0;
+  }
+
+}
+
+.tab-content {
+  padding: 10px 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.table-property {
+
+  //  font-family: "宋体"
+
+  textarea, input[type=text] {
+    width: 98%;
+  }
+  input[colorpicker], input[type=color], input[type=number] {
+    width: 60px;
+  }
+}
+
+.gridster {
+  background: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  transition: border-color ease-in-out 0.24s, box-shadow ease-in-out 0.24s, height ease-in-out .24s;
+  .gridster-item {
+    span {
+      white-space: pre;
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      overflow: hidden;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+    }
+  }
+  .default {
+    background-color: rgba(158, 217, 251, 0.25);
+  }
+  .active {
+    box-shadow: 0 0 6px rgba(0, 20, 255, 0.80);
+  }
+}
+
+.on-drag-hover {
+  border-color: #cccccc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+}
+
+.ngrs-range-slider {
+  margin: 2px 0px 8px;
+}

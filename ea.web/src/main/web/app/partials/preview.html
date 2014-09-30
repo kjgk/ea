@@ -1,0 +1,33 @@
+<div class="container page-a4">
+    <div class="row">
+        <div class="col-xs-2 hidden-print">
+            <span class="page-no" ng-bind="getPageNo()"></span>
+        </div>
+        <div class="col-xs-2 col-xs-offset-2 hidden-print">
+            <button ng-click="prePage()" ng-disabled="index == 0" class="btn btn-primary btn-block"><i class="fa fa-fw fa-arrow-left"></i> 上一页 </button>
+        </div>
+        <div class="col-xs-2 hidden-print">
+            <button ng-click="nextPage()" ng-disabled="index == pageData.content.length - 1" class="btn btn-primary btn-block"> 下一页 <i class="fa fa-fw fa-arrow-right"></i> </button>
+        </div>
+        <div class="col-xs-2 col-xs-offset-2 hidden-print">
+            <button ng-click="back()" class="btn btn-primary pull-right"><i class="fa fa-fw fa-reply"></i> 返回 </button>
+        </div>
+
+        <div class="col-xs-12" style="margin-top: 12px;">
+            <div class="report-page">
+                <div gridster="headerOptions" ui-on-drop style="border: none; background: none;">
+                    <ul>
+                        <li gridster-item="item" ng-repeat="item in pageData.header.items"></li>
+                    </ul>
+                </div>
+                <iframe ng-src="{{getCurrentPageSrc()}}"></iframe>
+                <div gridster="footerOptions" ui-on-drop style="border: none; background: none;">
+                    <ul>
+                        <li gridster-item="item" ng-repeat="item in pageData.footer.items"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
