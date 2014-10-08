@@ -14,7 +14,7 @@ Ext.define('withub.ext.ea.reportPage.ReportPageList', {
             columns: [
                 {xtype: 'rownumberer', width: 32},
                 {text: '名称', minWidth: 250, flex: 1, dataIndex: 'name', renderer: function (v, md, record) {
-                    return '<a target="_blank" href="/index.html#design/' + record.get('objectId') + '">' + v + '</a>'
+                    return '<a target="_blank" href="../report-page.html#design/' + record.get('objectId') + '">' + v + '</a>'
                 }}
             ],
             selModel: {

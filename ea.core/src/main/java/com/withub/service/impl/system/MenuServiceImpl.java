@@ -277,7 +277,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getPermissionMenuList() {
 
         return entityDao.listByJpql("select o from " + Menu.class.getName()
-                + " o where 1=1 and o.menuType != ? and o.objectStatus = 1 order by o.orderNo", 0);
+                + " o where 1=1 and o.menuType != ? and o.visible = 1 and o.objectStatus = 1 order by o.orderNo", 0);
     }
 
     public void setHomePage(String pageId) throws Exception {

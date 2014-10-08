@@ -45,11 +45,14 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         });
     })
 
-    .run(function ($rootScope, notify) {
+    .constant('contextPath', '/ea')
+
+    .run(function ($rootScope, contextPath, notify) {
         $rootScope.loadPageData = false;
         notify.config({
             duration: 3000
         });
+        $rootScope.contextPath = contextPath;
     })
 
     .directive('jsTree', function () {
@@ -77,22 +80,25 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
     .controller('MainCtrl', function ($http, $state) {
     })
 
-    .controller('DesignerCtrl', function ($scope, $rootScope, $http, $timeout, $state, notify, localStorageService) {
+    .controller('DesignerCtrl', function ($scope, $rootScope, $http, $timeout, $state, contextPath, notify, localStorageService) {
 
         if (!$rootScope.loadPageData) {
             $http({
-                url: '/ea/ea/reportPage/load/' + $state.params.id,
+                url: contextPath + '/ea/reportPage/load/' + $state.params.id,
                 method: 'GET'
             }).success(function (response) {
                 $rootScope.loadPageData = true;
                 $scope.pageData = angular.fromJson(response.data['jsonContent']);
-                $scope.pageItemList = $scope.pageData.content || [];
+                if ($scope.pageData != null) {
+                    $scope.pageItemList = $scope.pageData.content || [];
+                } else {
+                    $scope.pageItemList = [];
+                }
             });
         } else {
             $scope.pageData = localStorageService.get('pageData') || {};
             $scope.pageItemList = $scope.pageData.content || [];
         }
-
 
         $scope.header = {};
         $scope.footer = {};
@@ -101,10 +107,10 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
             core: {
                 data: function (obj, cb) {
                     $http({
-                        url: '/ea/ea/page/loadTree',
+                        url: contextPath + '/ea/page/loadTree',
                         method: 'GET',
                         params: {
-                            node: obj.id == '#' ? 'ROOT' : obj.id
+                            node: obj.id == '#' ? '3FC70B78-C377-4AED-A0C3-1F85E1FFB347' : obj.id
                         }
                     }).success(function (response) {
                         var nodes = [];
@@ -127,7 +133,8 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
         $scope.addPageItem = function () {
             _.each($scope.selectedNodes, function (node) {
-                if (node.parent == '#' || _.contains(_.pluck($scope.pageItemList, 'menuId'), node.id)) {
+
+                if (node.parent == '#' || node.children.length > 0 || _.contains(_.pluck($scope.pageItemList, 'menuId'), node.id)) {
                     return true;
                 }
                 $scope.pageItemList.push({
@@ -163,7 +170,7 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
         $scope.save = function () {
             $http({
-                url: '/ea/ea/reportPage/saveContent',
+                url: contextPath + '/ea/reportPage/saveContent',
                 method: 'POST',
                 data: {
                     objectId: $state.params.id,
@@ -180,34 +187,34 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
 
         // 第一次显示页脚部分
-        $scope.onSelectFooter = function(){
+        $scope.onSelectFooter = function () {
             var maxRows = $scope.footer.options.maxRows;
             $scope.footer.options.maxRows = 0;
-            $timeout(function(){
+            $timeout(function () {
                 $scope.footer.options.maxRows = maxRows;
             });
         };
     })
 
-    .controller('DesignerWidgetCtrl', function ($scope, $timeout, localStorageService, FileUploader) {
+    .controller('DesignerWidgetCtrl', function ($scope, $timeout, contextPath, localStorageService, FileUploader) {
         $scope.init = function (type) {
             var flag = true;
             $scope.$watch('pageData', function () {
-                if ($scope.pageData && flag) {
+                if ($scope.pageData !== undefined && flag) {
                     $scope.$parent.$parent[type] = $scope.data = {
-                        options: $scope.pageData[type] && $scope.pageData[type].options ? $scope.pageData[type].options : {
+                        options: $scope.pageData && $scope.pageData[type] && $scope.pageData[type].options ? $scope.pageData[type].options : {
                             columns: 64,
                             pushing: false,
                             floating: false,
                             margins: [2, 2],
                             minColumns: 1,
                             minRows: 2,
-                            maxRows: 12,
+                            maxRows: 8,
                             contain: true,
                             defaultSizeX: 8,
                             defaultSizeY: 4
                         },
-                        items: $scope.pageData[type] && $scope.pageData[type].items ? $scope.pageData[type].items : []
+                        items: $scope.pageData && $scope.pageData[type] && $scope.pageData[type].items ? $scope.pageData[type].items : []
                     };
                     flag = false;
                 }
@@ -242,7 +249,7 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         };
 
         var uploader = $scope.uploader = new FileUploader({
-            url: '/ea/ea/page/image/upload',
+            url: contextPath + '/ea/page/image/upload',
             alias: 'attachment',
             removeAfterUpload: true,
             autoUpload: true
@@ -256,7 +263,7 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         };
     })
 
-    .controller('PreviewCtrl', function ($scope, $state, localStorageService) {
+    .controller('PreviewCtrl', function ($scope, $state, contextPath, localStorageService) {
 
         $scope.pageData = localStorageService.get('pageData');
 
@@ -273,6 +280,11 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         $scope.back = function () {
             $state.transitionTo('design', {id: $state.params.id});
         };
+
+        $scope.print = function () {
+            window.print();
+        };
+
         $scope.baseSize = 980 * 147 / 10000;
 
         if (_.isEmpty($scope.pageData.content)) {
@@ -292,7 +304,7 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         };
 
         $scope.getCurrentPageSrc = function () {
-            return 'ea/loadPage/withub.ext.ea.page.PageDisplay?menuId=' + $scope.currentId;
+            return contextPath + '/loadPage/withub.ext.ea.page.PageDisplay?menuId=' + $scope.currentId;
         };
 
         $scope.getPageNo = function () {

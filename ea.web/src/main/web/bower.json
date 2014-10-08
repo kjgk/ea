@@ -1,5 +1,5 @@
 {
-  "name": "eaA",
+  "name": "ea",
   "version": "0.0.0",
   "dependencies": {
     "angular": "1.2.x",
@@ -49,7 +49,7 @@
     "jquery-ui": {
       "main": [
         "jquery-ui.js",
-        "themes/base/all.css"
+        "themes/base/resizable.css"
       ]
     },
     "at-table": {

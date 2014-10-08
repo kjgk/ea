@@ -9,8 +9,9 @@
         <div class="col-xs-2 hidden-print">
             <button ng-click="nextPage()" ng-disabled="index == pageData.content.length - 1" class="btn btn-primary btn-block"> 下一页 <i class="fa fa-fw fa-arrow-right"></i> </button>
         </div>
-        <div class="col-xs-2 col-xs-offset-2 hidden-print">
-            <button ng-click="back()" class="btn btn-primary pull-right"><i class="fa fa-fw fa-reply"></i> 返回 </button>
+        <div class="col-xs-4 hidden-print">
+            <button ng-click="back()" class="btn btn-primary pull-right" style="margin-left: 8px;"><i class="fa fa-fw fa-reply"></i> 返回 </button>
+            <button ng-click="print()" class="btn btn-info pull-right"><i class="fa fa-fw fa-print"></i> 打印 </button>
         </div>
 
         <div class="col-xs-12" style="margin-top: 12px;">

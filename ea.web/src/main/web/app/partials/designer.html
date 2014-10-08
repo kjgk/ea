@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="btn-preview">
-                <button class="btn btn-primary" ng-click="preview()"><i class="fa fa-lg fa-fw fa-image"></i> 预览</button>
+                <button class="btn btn-primary" ng-click="preview()"><i class="fa fa-lg fa-fw fa-image"></i> 预览</button>&nbsp;
                 <button class="btn btn-warning" ng-click="save()"><i class="fa fa-lg fa-fw fa-save"></i> 保存</button>
             </div>
             <tabset>
@@ -38,11 +38,11 @@
                         <tbody>
                         <tr>
                             <td at-title="#" width="32">{{$index+1}}</a></td>
-                            <td at-title="名称"><a target="_blank" href="/ea/loadPage/withub.ext.ea.page.PageDisplay?menuId={{item.menuId}}">{{item.name}}</a>
+                            <td at-title="名称"><a target="_blank" href="loadPage/withub.ext.ea.page.PageDisplay?menuId={{item.menuId}}">{{item.name}}</a>
                             </td>
                             <td at-title="" width="180" style="text-align: center;">
-                                <button class="btn btn-primary btn-xs" ng-disabled="$first" ng-click="orderPageItem(item, -1)">上移</button>
-                                <button class="btn btn-primary btn-xs" ng-disabled="$last" ng-click="orderPageItem(item, +1)">下移</button>
+                                <button class="btn btn-primary btn-xs" ng-disabled="$first" ng-click="orderPageItem(item, -1)">上移</button>&nbsp;
+                                <button class="btn btn-primary btn-xs" ng-disabled="$last" ng-click="orderPageItem(item, +1)">下移</button>&nbsp;
                                 <button class="btn btn-danger btn-xs" ng-click="deletePageItem(item)">删除</button>
                             </td>
                         </tr>
