@@ -121,6 +121,9 @@ public class SecurityController {
             LoginInfo loginInfo = (LoginInfo) SecurityContextHolder.getContext().getAuthentication().getDetails();
             List<Menu> menuList = permissionService.listUserMenuByParentMenuId(SpringSecurityUtil.getCurrentUser(), null);
             for (Menu menu : menuList) {
+                if (menu.getVisible() == 0) {
+                    continue;
+                }
                 if (StringUtil.compareValue(menu.getUrl(), "BigScreen")) {
                     continue;
                 }
