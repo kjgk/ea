@@ -1,16 +1,17 @@
 'use strict';
 
 angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
-    , 'angular-loading-bar', 'LocalStorageModule', 'ngDragDrop', 'gridster', 'colorpicker.module', 'angular-table', 'ui-rangeSlider', 'angularFileUpload'])
+    , 'angular-loading-bar', 'LocalStorageModule', 'ngDragDrop', 'gridster', 'colorpicker.module'
+    , 'angular-table', 'ui-rangeSlider', 'angularFileUpload', 'cgNotify'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $stateProvider
-            .state('home', {
-                url: '/',
+            .state('design', {
+                url: '/design/:id',
                 templateUrl: 'partials/designer.html',
                 controller: 'DesignerCtrl'
             })
             .state('preview', {
-                url: '/preview',
+                url: '/preview/:id',
                 templateUrl: 'partials/preview.html',
                 controller: 'PreviewCtrl'
             });
@@ -20,11 +21,9 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         $httpProvider.interceptors.push(function ($q, $location, $filter, cfpLoadingBar) {
             return {
                 'request': function (request) {
-
                     if (request.cfpLoading === undefined || request.cfpLoading) {
                         cfpLoadingBar.start();
                     }
-
                     return request || $q.when(request);
                 },
                 'response': function (response) {
@@ -32,7 +31,6 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
                     return response || $q.when(response);
                 },
-
                 'responseError': function (rejection) {
                     cfpLoadingBar.complete();
                     // 网络中断或服务器关闭
@@ -44,6 +42,13 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
                     return $q.reject(rejection);
                 }
             };
+        });
+    })
+
+    .run(function ($rootScope, notify) {
+        $rootScope.loadPageData = false;
+        notify.config({
+            duration: 3000
         });
     })
 
@@ -69,16 +74,28 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         };
     })
 
-    .controller('MainCtrl', function () {
-
+    .controller('MainCtrl', function ($http, $state) {
     })
 
-    .controller('DesignerCtrl', function ($scope, $http, localStorageService, $state) {
+    .controller('DesignerCtrl', function ($scope, $rootScope, $http, $timeout, $state, notify, localStorageService) {
+
+        if (!$rootScope.loadPageData) {
+            $http({
+                url: '/ea/ea/reportPage/load/' + $state.params.id,
+                method: 'GET'
+            }).success(function (response) {
+                $rootScope.loadPageData = true;
+                $scope.pageData = angular.fromJson(response.data['jsonContent']);
+                $scope.pageItemList = $scope.pageData.content || [];
+            });
+        } else {
+            $scope.pageData = localStorageService.get('pageData') || {};
+            $scope.pageItemList = $scope.pageData.content || [];
+        }
+
 
         $scope.header = {};
         $scope.footer = {};
-
-        var pageData = localStorageService.get('pageData') || {};
 
         $scope.treeOptions = {
             core: {
@@ -107,8 +124,6 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         $scope.$on('changed.jstree', function (event, action, nodes) {
             $scope.selectedNodes = nodes;
         });
-
-        $scope.pageItemList = pageData.content;
 
         $scope.addPageItem = function () {
             _.each($scope.selectedNodes, function (node) {
@@ -143,13 +158,62 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
                 footer: $scope.footer,
                 content: $scope.pageItemList
             });
-            $state.transitionTo('preview');
+            $state.transitionTo('preview', {id: $state.params.id});
+        };
+
+        $scope.save = function () {
+            $http({
+                url: '/ea/ea/reportPage/saveContent',
+                method: 'POST',
+                data: {
+                    objectId: $state.params.id,
+                    jsonContent: angular.toJson({
+                        header: $scope.header,
+                        footer: $scope.footer,
+                        content: $scope.pageItemList
+                    })
+                }
+            }).success(function () {
+                notify('保存成功');
+            });
+        };
+
+
+        // 第一次显示页脚部分
+        $scope.onSelectFooter = function(){
+            var maxRows = $scope.footer.options.maxRows;
+            $scope.footer.options.maxRows = 0;
+            $timeout(function(){
+                $scope.footer.options.maxRows = maxRows;
+            });
         };
     })
 
-    .controller('DesignerWidgetCtrl', function ($scope, localStorageService, FileUploader) {
+    .controller('DesignerWidgetCtrl', function ($scope, $timeout, localStorageService, FileUploader) {
+        $scope.init = function (type) {
+            var flag = true;
+            $scope.$watch('pageData', function () {
+                if ($scope.pageData && flag) {
+                    $scope.$parent.$parent[type] = $scope.data = {
+                        options: $scope.pageData[type] && $scope.pageData[type].options ? $scope.pageData[type].options : {
+                            columns: 64,
+                            pushing: false,
+                            floating: false,
+                            margins: [2, 2],
+                            minColumns: 1,
+                            minRows: 2,
+                            maxRows: 12,
+                            contain: true,
+                            defaultSizeX: 8,
+                            defaultSizeY: 4
+                        },
+                        items: $scope.pageData[type] && $scope.pageData[type].items ? $scope.pageData[type].items : []
+                    };
+                    flag = false;
+                }
+            });
+        };
 
-        var pageData = localStorageService.get('pageData') || {};
         $scope.widgets = [
             {
                 title: '文字', icon: 'fa-text-width', tag: 'text', attributes: {style: {background: '', color: '#000000', fontFamily: 'Microsoft YaHei', 'fontSize': 14, textAlign: 'left'}}
@@ -162,25 +226,6 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
             }
         ];
 
-        $scope.$watch('target', function () {
-            $scope.$parent.$parent[$scope.target] = $scope.data = {
-                options: pageData[$scope.target] && pageData[$scope.target].options ? pageData[$scope.target].options : {
-                    columns: 64,
-                    pushing: false,
-                    floating: false,
-                    margins: [2, 2],
-                    minColumns: 1,
-                    minRows: 2,
-                    maxRows: 12,
-                    contain: true,
-                    defaultSizeX: 8,
-                    defaultSizeY: 4
-                },
-                items: pageData[$scope.target] && pageData[$scope.target].items ? pageData[$scope.target].items : []
-            };
-        });
-
-        $scope.pageItemList = pageData.content || [];
 
         $scope.dropSuccessHandler = function (widget) {
             $scope.data.items.push(angular.copy(widget));
@@ -226,13 +271,13 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
         });
 
         $scope.back = function () {
-            $state.transitionTo('home');
+            $state.transitionTo('design', {id: $state.params.id});
         };
         $scope.baseSize = 980 * 147 / 10000;
 
         if (_.isEmpty($scope.pageData.content)) {
             alert('请设置内容！');
-            $state.transitionTo('home');
+            $state.transitionTo('design', {id: $state.params.id});
             return;
         }
 
@@ -248,7 +293,6 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
         $scope.getCurrentPageSrc = function () {
             return 'ea/loadPage/withub.ext.ea.page.PageDisplay?menuId=' + $scope.currentId;
-//            return 'ea/111';
         };
 
         $scope.getPageNo = function () {
@@ -257,4 +301,3 @@ angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap'
 
     })
 ;
-

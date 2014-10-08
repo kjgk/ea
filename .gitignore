@@ -7,3 +7,8 @@ ea.core/target
 ea.web/target
 withub.common/target
 
+ea.web/src/main/web/.tmp
+ea.web/src/main/web/.sass-cache
+ea.web/src/main/web/node_modules
+ea.web/src/main/web/app/bower_components
+ea.web/src/main/web/dist

@@ -1,4 +1,4 @@
-Ext.define('withub.ext.ea.reportWedget.ReportWidgetModel', {
+Ext.define('withub.ext.ea.reportPage.ReportPageModel', {
     extend: 'Ext.data.Model',
     fields: [
         'objectId',

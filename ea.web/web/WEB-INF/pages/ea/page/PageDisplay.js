@@ -2,6 +2,7 @@ Ext.define('withub.ext.ea.page.PageDisplay', {
     extend: 'Ext.Viewport',
     layout: 'border',
     zIndex: 1000,
+    border: false,
     initComponent: function () {
 
         var me = this;
@@ -10,6 +11,7 @@ Ext.define('withub.ext.ea.page.PageDisplay', {
             region: 'center',
             layout: 'absolute',
             autoScroll: true,
+            border: false,
             html: '<div id="backgroundImage" style=" position: absolute; top: 0px; left: 0px; z-index: 1"></div>'
         });
 

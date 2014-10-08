@@ -7,13 +7,13 @@
                 <button class="btn btn-warning" ng-click="save()"><i class="fa fa-lg fa-fw fa-save"></i> 保存</button>
             </div>
             <tabset>
-                <tab ng-controller="DesignerWidgetCtrl" ng-init="target='header'">
+                <tab ng-controller="DesignerWidgetCtrl" ng-init="init('header')">
                     <tab-heading>设置页眉</tab-heading>
-                    <div ng-="target='header'" ng-include="'partials/designer-widget.html'"></div>
+                    <div ng-include="'partials/designer-widget.html'"></div>
                 </tab>
-                <tab ng-controller="DesignerWidgetCtrl" ng-init="target='footer'">
+                <tab select="onSelectFooter()" ng-controller="DesignerWidgetCtrl" ng-init="init('footer')">
                     <tab-heading>设置页脚</tab-heading>
-                    <div  ng-include="'partials/designer-widget.html'"></div>
+                    <div ng-include="'partials/designer-widget.html'"></div>
                 </tab>
                 <tab>
                     <tab-heading>设置内容</tab-heading>

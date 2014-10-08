@@ -3,19 +3,17 @@ package com.withub.service.impl.ea;
 import com.withub.common.util.DateUtil;
 import com.withub.common.util.StringUtil;
 import com.withub.dao.EntityDao;
-import com.withub.model.ea.MetasysDatabase;
+import com.withub.model.ea.ReportPage;
 import com.withub.model.entity.query.QueryInfo;
 import com.withub.model.entity.query.RecordsetInfo;
-import com.withub.service.ea.MetasysDatabaseService;
+import com.withub.service.ea.ReportPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-@Service("metasysDatabaseService")
+@Service("reportPageService")
 @Transactional
-public class ReportPageServiceImpl implements MetasysDatabaseService {
+public class ReportPageServiceImpl implements ReportPageService {
 
     //===================== 属性声明 ========================================================
 
@@ -24,50 +22,50 @@ public class ReportPageServiceImpl implements MetasysDatabaseService {
 
     //=======================接口方法========================================================
 
-    public RecordsetInfo queryMetasysDatabase(QueryInfo queryInfo) throws Exception {
+    public RecordsetInfo queryReportPage(QueryInfo queryInfo) throws Exception {
 
         RecordsetInfo recordsetInfo = entityDao.query(queryInfo);
         return recordsetInfo;
     }
 
-    public List<MetasysDatabase> listMetasysDatabase() throws Exception {
+    public ReportPage getReportPageById(final String objectId) throws Exception {
 
-        String jpql = "select o from " + MetasysDatabase.class.getName() + " o where 1=1 and o.objectStatus = 1 order by o.createTime desc";
-        List<MetasysDatabase> list = entityDao.listByJpql(jpql);
-        return list;
+        return entityDao.getObject(ReportPage.class, objectId);
     }
 
-    public MetasysDatabase getMetasysDatabaseById(final String objectId) throws Exception {
+    public void createReportPage(ReportPage reportPage) throws Exception {
 
-        return entityDao.getObject(MetasysDatabase.class, objectId);
+        reportPage.setObjectId(StringUtil.getUuid());
+        reportPage.setCreateTime(DateUtil.getCurrentTime());
+        reportPage.setLastUpdateTime(DateUtil.getCurrentTime());
+        reportPage.setObjectStatus(1);
+        reportPage.setObjectVersion(1);
+        entityDao.save(reportPage);
     }
 
-    public void createMetasysDatabase(MetasysDatabase metasysDatabase) throws Exception {
+    public void updateReportPage(ReportPage reportPage) throws Exception {
 
-        metasysDatabase.setObjectId(StringUtil.getUuid());
-        metasysDatabase.setCreateTime(DateUtil.getCurrentTime());
-        metasysDatabase.setLastUpdateTime(DateUtil.getCurrentTime());
-        metasysDatabase.setObjectStatus(1);
-        metasysDatabase.setObjectVersion(1);
-        entityDao.save(metasysDatabase);
+        ReportPage temp = entityDao.getObject(ReportPage.class, reportPage.getObjectId());
+
+        temp.setName(reportPage.getName());
+        temp.setLastUpdateTime(DateUtil.getCurrentTime());
+        temp.setObjectVersion(temp.getObjectVersion() + 1);
+        entityDao.save(temp);
     }
 
-    public void updateMetasysDatabase(MetasysDatabase metasysDatabase) throws Exception {
+    public void deleteReportPage(final String objectId) throws Exception {
 
-        MetasysDatabase oldMetasysDatabase = entityDao.getObject(MetasysDatabase.class, metasysDatabase.getObjectId());
-
-        if (oldMetasysDatabase != null) {
-            metasysDatabase.setCreateTime(oldMetasysDatabase.getCreateTime());
-            metasysDatabase.setObjectVersion(1);
-            metasysDatabase.setObjectStatus(1);
-        }
-
-        metasysDatabase.setLastUpdateTime(DateUtil.getCurrentTime());
-        entityDao.save(metasysDatabase);
+        entityDao.logicDelete(ReportPage.class, objectId);
     }
 
-    public void deleteMetasysDatabase(final String objectId) throws Exception {
+    public void saveReportPageContent(ReportPage reportPage) throws Exception {
 
-        entityDao.logicDelete(MetasysDatabase.class, objectId);
+        ReportPage temp = entityDao.getObject(ReportPage.class, reportPage.getObjectId());
+
+        temp.setJsonContent(reportPage.getJsonContent());
+        temp.setLastUpdateTime(DateUtil.getCurrentTime());
+        temp.setObjectVersion(temp.getObjectVersion() + 1);
+        entityDao.save(temp);
     }
+
 }

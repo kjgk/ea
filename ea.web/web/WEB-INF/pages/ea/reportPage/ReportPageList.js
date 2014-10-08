@@ -1,21 +1,21 @@
-Ext.define('withub.ext.ea.reportWedget.ReportWidgetList', {
+Ext.define('withub.ext.ea.reportPage.ReportPageList', {
     extend: 'Ext.Viewport',
     closable: true,
     layout: 'fit',
-    requires: ['withub.ext.ea.reportExport.ReportWidgetModel'],
+    requires: ['withub.ext.ea.reportPage.ReportPageModel'],
 
     initComponent: function () {
 
-        var me = this;
-
         this.gridPanel = Ext.create('withub.ext.common.ManagerGrid', {
-            model: 'withub.ext.ea.reportExport.ReportWidgetModel',
-            baseUrl: '/ea/reportWidget',
+            model: 'withub.ext.ea.reportPage.ReportPageModel',
+            baseUrl: '/ea/reportPage',
             enablePagginBar: true,
             enableDeleteItem: true,
             columns: [
                 {xtype: 'rownumberer', width: 32},
-                {text: '任务计划名称', minWidth: 250, flex: 1, dataIndex: 'name'}
+                {text: '名称', minWidth: 250, flex: 1, dataIndex: 'name', renderer: function (v, md, record) {
+                    return '<a target="_blank" href="/index.html#design/' + record.get('objectId') + '">' + v + '</a>'
+                }}
             ],
             selModel: {
                 mode: 'MULTI'
@@ -31,14 +31,14 @@ Ext.define('withub.ext.ea.reportWedget.ReportWidgetList', {
                     xtype: 'button',
                     text: '搜索',
                     iconCls: 'icon-query',
-                    handler: this.queryReportWidget,
+                    handler: this.queryReportPage,
                     scope: this
                 },
                 {
                     text: '添加',
                     iconCls: 'icon-add',
                     handler: function () {
-                        Ext.create('withub.ext.ea.reportExport.ReportWidget', {
+                        Ext.create('withub.ext.ea.reportPage.ReportPage', {
                             listeners: {
                                 success: function () {
                                     this.gridPanel.getStore().load();
@@ -58,7 +58,7 @@ Ext.define('withub.ext.ea.reportWedget.ReportWidgetList', {
                     text: '编辑',
                     iconCls: 'icon-edit',
                     handler: function () {
-                        Ext.create('withub.ext.ea.reportExport.ReportWidget', {
+                        Ext.create('withub.ext.ea.reportPage.ReportPage', {
                             action: 'update',
                             objectId: objectId,
                             listeners: {
@@ -78,10 +78,10 @@ Ext.define('withub.ext.ea.reportWedget.ReportWidgetList', {
         this.items = this.gridPanel;
 
         this.callParent();
-        this.queryReportWidget();
+        this.queryReportPage();
     },
 
-    queryReportWidget: function () {
+    queryReportPage: function () {
         var name = this.gridPanel.down('#name');
         Ext.apply(this.gridPanel.getStore().getProxy().extraParams, {
             name: name.getValue()
