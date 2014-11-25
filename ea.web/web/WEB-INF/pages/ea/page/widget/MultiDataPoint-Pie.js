@@ -116,7 +116,7 @@ Ext.define('withub.ext.ea.page.widget.MultiDataPoint-Pie', {
             Ext.each(Ext.decode(this.getWidgetConfig()['dataPointList']), function (dataPoint) {
                 colors.push('#' + dataPoint['color']);
             });
-            Highcharts.setOptions({colors: colors});
+//            Highcharts.setOptions({colors: colors});
         }
         me.chart = new Highcharts.Chart({
             chart: {
@@ -128,6 +128,7 @@ Ext.define('withub.ext.ea.page.widget.MultiDataPoint-Pie', {
                     allowPointSelect: true,
                     showInLegend: true,
                     cursor: 'pointer',
+                    colors: colors,
                     dataLabels: {
                         enabled: true,
                         color: '#000000',
@@ -168,10 +169,8 @@ Ext.define('withub.ext.ea.page.widget.MultiDataPoint-Pie', {
         var me = this;
         var dateRange = me.headerContainer.down('#dateRange');
         var dataPointObjectIds = [];
-        var colors = [];
         Ext.each(Ext.decode(me.getWidgetConfig()['dataPointList']), function (dataPoint) {
             dataPointObjectIds.push(dataPoint['dataPointId']);
-            colors.push('#' + dataPoint['color']);
         });
 
         me.chart ? '' : me.initChart();
