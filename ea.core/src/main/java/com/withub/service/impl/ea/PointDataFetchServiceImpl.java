@@ -145,8 +145,13 @@ public class PointDataFetchServiceImpl implements PointDataFetchService {
                 Object[] result = list.get(i);
                 ActualValue actualValue = new ActualValue();
                 actualValue.setDatetimeString(String.valueOf(result[0]));
-                actualValue.setValue(Double.valueOf(String.format(precisionText, result[1])));
+                // 区间值
+                if (dataPoint.getPointDataValueType() == 1) {
+                    actualValue.setValue(Double.valueOf(String.format(precisionText, result[1])));
+                }
+                // 累计值
                 if (dataPoint.getPointDataValueType() == 2) {
+                    actualValue.setValue(Double.valueOf(String.format(precisionText, result[2])));
                     Double preValue;
                     if (i == 0) {
                         preValue = preMaxValue;
