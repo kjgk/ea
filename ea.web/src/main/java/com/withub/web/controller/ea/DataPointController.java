@@ -4,12 +4,12 @@ import com.withub.common.util.CollectionUtil;
 import com.withub.common.util.StringUtil;
 import com.withub.model.DataExportInfo;
 import com.withub.model.ea.DataPoint;
+import com.withub.model.ea.ElectricityPriceIssue;
 import com.withub.model.ea.MetasysDatabase;
 import com.withub.model.ea.UnitOfMeasure;
 import com.withub.model.entity.query.ExpressionOperation;
 import com.withub.model.entity.query.QueryInfo;
 import com.withub.model.entity.query.RecordsetInfo;
-import com.withub.model.system.config.DatabaseConfigInfo;
 import com.withub.model.system.config.SystemConfigInfo;
 import com.withub.service.ea.DataPointService;
 import com.withub.service.ea.ElectricityService;
@@ -487,7 +487,11 @@ public class DataPointController extends BaseController {
             , @RequestParam(required = false) String dataPointId) throws Exception {
 
         if (StringUtil.isEmpty(issueId)) {
-            issueId = electricityService.getCurrentElectricityPriceIssue().getObjectId();
+            ElectricityPriceIssue electricityPriceIssue = electricityService.getCurrentElectricityPriceIssue();
+            if (electricityPriceIssue == null) {
+                throw new Exception("当前年份的分时电价表未设置！");
+            }
+            issueId = electricityPriceIssue.getObjectId();
         }
 
         if (StringUtil.isNotEmpty(dataPointId)) {

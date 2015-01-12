@@ -877,12 +877,12 @@ public class DataPointServiceImpl implements DataPointService {
                         , dataPoint.getDataPointId(), dataPoint.getDatabaseTag(), new Timestamp(electricityPriceIssue.getStartDate().getTime()), new Timestamp(DateUtil.getEndDate(electricityPriceIssue.getEndDate()).getTime()));
 
                 for (Object[] objects : list) {
-                    maxIncrementValue = Math.max(maxIncrementValue, (Double) objects[1]);
+                    maxIncrementValue = Math.max(maxIncrementValue, new Double(objects[1].toString()));
                 }
                 for (ElectricityPriceTimeSegment electricityPriceTimeSegment : electricityService.getAllElectricityPriceTimeSegment()) {
                     for (Object[] objects : list) {
                         if (StringUtil.compareValue(electricityPriceTimeSegment.getTag(), (String) objects[0])) {
-                            timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), (Double) objects[2]);
+                            timeSegmentActualValues.put(electricityPriceTimeSegment.getObjectId(), new Double(objects[2].toString()));
                             break;
                         }
                     }

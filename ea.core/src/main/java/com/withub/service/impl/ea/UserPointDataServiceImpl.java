@@ -168,12 +168,12 @@ public class UserPointDataServiceImpl implements UserPointDataService {
                 }
             }
             pointActualValue.setPointId(dataPoint.getDataPointId());
-            pointActualValue.setSource(dataPoint.getSource());
+            pointActualValue.setSource(2);
             pointActualValue.setPointSliceId(dataPoint.getDataPointSliceId());
             pointActualValue.setDatabaseTag(dataPoint.getDatabaseTag());
             if (!isRecordExist(pointActualValue, "ea_pointactualvalue")) {
-                String sql = "insert into ea_pointactualvalue(pointid,pointsliceid,utcdatetime,actualvalue,source,databaseTag) values (?,?,?,?,?,?)";
-                entityDao.executeSql(sql, pointActualValue.getPointId(), pointActualValue.getPointSliceId(), pointActualValue.getUtcDateTime(), pointActualValue.getActualValue(), pointActualValue.getSource(), pointActualValue.getDatabaseTag());
+                String sql = "insert into ea_pointactualvalue(pointid,pointsliceid,utcdatetime,actualvalue,source,databaseTag,incrementvalue) values (?,?,?,?,?,?,?)";
+                entityDao.executeSql(sql, pointActualValue.getPointId(), pointActualValue.getPointSliceId(), pointActualValue.getUtcDateTime(), pointActualValue.getActualValue(), pointActualValue.getSource(), pointActualValue.getDatabaseTag(), pointActualValue.getActualValue());
             } else {
                 result[2] += "," + (i + 1);
             }
